@@ -170,15 +170,30 @@ int HashTableOpen<Key, Val>::hash(const Key& k) const {
 
 template <typename Key, typename Val>
 void HashTableOpen<Key, Val>::insert(const Key& k, const Val& v) {
-    // TODO
+    int slot = hash(k);
+    Record newRecord(k, v);
+    ht[slot]->append(newRecord);
 }
 
 template <typename Key, typename Val>
 void HashTableOpen<Key, Val>::remove(const Key& k) {
-    // TODO
+    int slot = hash(k);
+    LinkedList<Record>* list = ht[slot];
+    for (int i = 0; i < list->getLength(); i++) {
+        if (list->getElement(i).k == k) {
+            list->remove(i);
+            return;
+        }
+    }
+    throw string("Record not found");
 }
 
 template <typename Key, typename Val>
 int HashTableOpen<Key, Val>::size() const {
-    // TODO
+    int totalSize = 0;
+    for (int i = 0; i < M; i++) {
+        totalSize += ht[i]->getLength();
+    }
+    return totalSize;
 }
+
