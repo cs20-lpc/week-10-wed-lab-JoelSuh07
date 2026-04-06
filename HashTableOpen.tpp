@@ -1,6 +1,10 @@
 template <typename Key, typename Val>
 HashTableOpen<Key, Val>::HashTableOpen(int i) {
     // TODO
+    ht = new LinkedList<Record>*[i]; // create heap memory for hashtable ht with i amounts of data
+    for (int j = 0; j < i; j++) {
+        ht[j] = new LinkedList<Record>();
+    }
 }
 
 template <typename Key, typename Val>
