@@ -1,8 +1,9 @@
 template <typename Key, typename Val>
 HashTableOpen<Key, Val>::HashTableOpen(int i) {
     // TODO
-    ht = new LinkedList<Record>*[i]; // create heap memory for hashtable ht with i amounts of data
-    for (int j = 0; j < i; j++) {
+    M = i;
+    ht = new LinkedList<Record>*[M]; // create heap memory for hashtable ht with i amounts of data
+    for (int j = 0; j < M; j++) {
         ht[j] = new LinkedList<Record>();
     }
 }
@@ -26,6 +27,10 @@ HashTableOpen<Key, Val>& HashTableOpen<Key, Val>::operator=
 template <typename Key, typename Val>
 HashTableOpen<Key, Val>::~HashTableOpen() {
     // TODO
+    for (int i = 0; i < M; i++) {
+        delete ht[i]; // loops through array and deletes all hashtable values
+    }
+    delete[] ht; // delete array ht
 }
 
 template <typename Key, typename Val>
@@ -104,6 +109,15 @@ void HashTableOpen<Key, Val>::copy(const HashTableOpen<Key, Val>& copyObj) {
 template <typename Key, typename Val>
 Val HashTableOpen<Key, Val>::find(const Key& k) const {
     // TODO
+    int slot = hash(k);
+    LinkedList<Record>* list = ht[slot];
+    for (int i = 0; i < list->getLength(); i++) {
+        Record r = list->getElement(i);
+        if (r.k == k) {
+            return r.v;
+        }
+    }
+    throw string("Record not found");
 }
 
 template <typename Key, typename Val>
